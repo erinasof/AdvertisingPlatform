@@ -5,8 +5,6 @@ namespace AdvertisingPlatform
 {
     public static class ExtensionMethods
     {
-        public static LocationNode LocalsRootNode = [];
-
         public static async Task<string> GetRawBodyAsync(this HttpRequest request)
         {
             if (!request.Body.CanSeek)
