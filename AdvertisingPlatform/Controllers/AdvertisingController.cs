@@ -1,4 +1,5 @@
 ﻿using AdvertisingPlatform.Services;
+using AdvertisingPlatform.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
@@ -18,31 +19,43 @@ namespace AdvertisingPlatform.Controllers
             this.advertisingPlatformService = new AdvertisingPlatformService();
         }
 
-        //LocationNode Locations;
-
         // POST api/v1/<AdvertisingController>
         [HttpPost("RefreshDictionary")]
-        public async Task<IActionResult> Post()
+        public async Task<IActionResult> RefreshDictionary()
         {
-            var rawRequestBody = await Request.GetRawBodyAsync();
-
-            // Other code here
-
-            return Ok();
+            try
+            {
+                string referenceFileContent = await Request.GetRawBodyAsync();
+                if (referenceFileContent == null || string.Empty == referenceFileContent)
+                {
+                    return UnprocessableEntity(new ErrorMessage { Error = "Empty file" });
+                }
+                advertisingPlatformService.RefreshLocationReference(referenceFileContent);
+                return Ok();
+            } catch(Exception ex) {
+                return BadRequest(new ErrorMessage { Error = "An error occurred: " + ex.Message });
+            }
         }
 
         // GET: api/v1/<AdvertisingController>
         [HttpGet]
-        public IEnumerable<string> Get([FromQuery(Name = "location")] string location)
+        public IActionResult SeekByLocation([FromQuery(Name = "location")] string location)
         {
-            if (ExtensionMethods.LocalsRootNode == null)
+            if (advertisingPlatformService.IsReferenceEmpty())
             {
-                return ["Загрузите файл"];
+                return BadRequest(new ErrorMessage {
+                    Error = "Location's reference data is empty, please upload file first" 
+                });
             }
-
-            List<string> list = [];
-            ExtensionMethods.LocalsRootNode.SeekByLocation(location, list, 0);
-            return [.. list];            
+            try
+            {
+                return Ok(new PlatformResponce { AdvPlatforms = advertisingPlatformService.SeekByLocation(location) });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorMessage { Error = "An error occurred: " + ex.Message });
+            }
+            
         }
 
     }

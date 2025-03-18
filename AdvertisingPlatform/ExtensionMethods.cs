@@ -18,21 +18,8 @@ namespace AdvertisingPlatform
             }
 
             request.Body.Position = 0;
-            var reader = new StreamReader(request.Body, Encoding.UTF8);
-            var body = await reader.ReadToEndAsync().ConfigureAwait(false);
-
-            LocalsRootNode.Clear();
-
-            try
-            {
-                LocalsRootNode.Init(body);
-            }
-            catch(Exception ex)
-            {
-                // вывести ошибку!!!
-                //LocalsRootNode = null;
-            }
             
+            var body = await new StreamReader(request.Body, Encoding.UTF8).ReadToEndAsync().ConfigureAwait(false);
 
             request.Body.Position = 0;
 
