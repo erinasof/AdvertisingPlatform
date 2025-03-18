@@ -1,9 +1,11 @@
 ﻿using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AdvertisingPlatform
 {
     public static class ExtensionMethods
     {
+        public static LocationNode LocalsRootNode = [];
 
         public static async Task<string> GetRawBodyAsync(this HttpRequest request)
         {
@@ -16,10 +18,21 @@ namespace AdvertisingPlatform
             }
 
             request.Body.Position = 0;
-
             var reader = new StreamReader(request.Body, Encoding.UTF8);
-
             var body = await reader.ReadToEndAsync().ConfigureAwait(false);
+
+            LocalsRootNode.Clear();
+
+            try
+            {
+                LocalsRootNode.Init(body);
+            }
+            catch(Exception ex)
+            {
+                // вывести ошибку!!!
+                //LocalsRootNode = null;
+            }
+            
 
             request.Body.Position = 0;
 
