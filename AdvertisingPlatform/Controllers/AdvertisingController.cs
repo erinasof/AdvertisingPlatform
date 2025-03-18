@@ -33,7 +33,7 @@ namespace AdvertisingPlatform.Controllers
                 advertisingPlatformService.RefreshLocationReference(referenceFileContent);
                 return Ok();
             } catch(Exception ex) {
-                return BadRequest(new ErrorMessage { Error = "An error occurred: " + ex.Message });
+                return BadRequest(new ErrorMessage { Error = ex.Message });
             }
         }
 
@@ -53,7 +53,7 @@ namespace AdvertisingPlatform.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new ErrorMessage { Error = "An error occurred: " + ex.Message });
+                return BadRequest(new ErrorMessage { Error = ex.Message });
             }
             
         }
