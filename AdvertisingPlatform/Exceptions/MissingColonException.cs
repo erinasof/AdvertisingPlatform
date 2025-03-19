@@ -1,7 +1,7 @@
 ﻿namespace AdvertisingPlatform.Exceptions
 {
-    public class ColonMissingException : Exception
+    public class MissingColonException : Exception
     {
-        public ColonMissingException(string Message) : base(Message) { }
+        public MissingColonException(string Message) : base(Message) { }
     }
 }

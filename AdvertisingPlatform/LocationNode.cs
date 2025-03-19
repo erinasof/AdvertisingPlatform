@@ -85,7 +85,7 @@ namespace AdvertisingPlatform
             int fInd = line.IndexOf(Symbols.firstSymbol);
             if (fInd == -1)
             {
-                throw new ColonMissingException("Некорректные входные данные: двоеточие не найдено");
+                throw new MissingColonException("Некорректные входные данные: двоеточие не найдено");
             }
 
             var platformName = line[..fInd];

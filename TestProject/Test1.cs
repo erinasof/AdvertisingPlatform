@@ -44,7 +44,7 @@ namespace TestProject
             var contentStr = "Яндекс.Директ/ru";
 
             LocationNode RootNode = [];
-            Assert.Throws<ColonMissingException>(() => RootNode.Init(contentStr));
+            Assert.Throws<MissingColonException>(() => RootNode.Init(contentStr));
         }
 
         [TestMethod]
