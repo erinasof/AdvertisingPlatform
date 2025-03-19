@@ -32,7 +32,9 @@ namespace AdvertisingPlatform.Controllers
                 }
                 advertisingPlatformService.RefreshLocationReference(referenceFileContent);
                 return Ok();
-            } catch(Exception ex) {
+            }
+            catch(Exception ex)
+            {
                 return BadRequest(new ErrorMessage { Error = ex.Message });
             }
         }
@@ -43,7 +45,8 @@ namespace AdvertisingPlatform.Controllers
         {
             if (advertisingPlatformService.IsReferenceEmpty())
             {
-                return BadRequest(new ErrorMessage {
+                return BadRequest(new ErrorMessage
+                {
                     Error = "Location's reference data is empty, please upload file first" 
                 });
             }
